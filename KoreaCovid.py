@@ -18,9 +18,10 @@ def CasesDataPerProvince(cursor):
         plt.bar(row[0], row[1])
         plt.text(row[0], row[1], row[1])
 
-    plt.title("Confirmed Cases by Province")
+    plt.title("Top 5 Provinces with Confirmed Cases")
     plt.xlabel("Province")
     plt.ylabel("Cases")
+    plt.savefig("./Outputs/Confirmed Cases by Province.png")
     plt.show()
 
 def PatientInfo(cursor):
@@ -39,9 +40,6 @@ def PatientInfo(cursor):
                         ORDER BY age ASC"""
     cursor.execute(queryFemale)
     femaleData = cursor.fetchall()
-
-    print(maleData)
-    print(femaleData)
 
     maleCount, femaleCount = [], []
     ageGroup = []
@@ -69,12 +67,34 @@ def PatientInfo(cursor):
     print(t)
     ax.set_xticklabels(t)
     plt.legend()
+    plt.savefig("./Outputs/Patient Age Groups.png")
     plt.show()
 
 def plotPatientLatLong(cursor):
     koreaMap = gpd.read_file("./KoreaMap/kr.shp")
     fig,ax = plt.subplots()
-    koreaMap.plot(ax=ax)
+
+    query = """SELECT latitude, longitude
+               FROM Cases
+               WHERE latitude!='-' AND longitude!='-'"""
+
+    cursor.execute(query)
+    data = cursor.fetchall()
+    lat,long = [], []
+    for row in data:
+        lat.append(row[0])
+        long.append(row[1])
+
+    df = pd.DataFrame({'latitude':lat, 'longitude':long})
+    gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.longitude, df.latitude))
+    ax = gdf.plot(alpha=1,color='green',zorder=1,marker='o',markersize=3)
+    ax.set_facecolor('lightblue')
+    koreaMap.plot(cmap='YlOrBr', ax=ax,zorder=0)
+
+    ax.set_title("Location of Cases")
+    ax.set_xlabel("Longitude")
+    ax.set_ylabel("Latitude")
+    plt.savefig("./Outputs/PatientLatLong.png")
     plt.show()
 
 
@@ -87,8 +107,8 @@ CaseCursor = CaseConn.cursor()
 PatientCursor = PatientConn.cursor()
 
 # functions
-# CasesDataPerProvince(CaseCursor)
-# PatientInfo(PatientCursor)
-plotPatientLatLong(PatientCursor)
+CasesDataPerProvince(CaseCursor)
+PatientInfo(PatientCursor)
+plotPatientLatLong(CaseCursor)
 
 CaseConn.close()
