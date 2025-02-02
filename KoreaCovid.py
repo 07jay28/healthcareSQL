@@ -18,9 +18,10 @@ def CasesDataPerProvince(cursor):
         plt.bar(row[0], row[1])
         plt.text(row[0], row[1], row[1])
 
-    plt.title("Confirmed Cases by Province")
+    plt.title("Top 5 Provinces with Confirmed Cases")
     plt.xlabel("Province")
     plt.ylabel("Cases")
+    plt.savefig("./Outputs/Confirmed Cases by Province.png")
     plt.show()
 
 def PatientInfo(cursor):
@@ -39,9 +40,6 @@ def PatientInfo(cursor):
                         ORDER BY age ASC"""
     cursor.execute(queryFemale)
     femaleData = cursor.fetchall()
-
-    print(maleData)
-    print(femaleData)
 
     maleCount, femaleCount = [], []
     ageGroup = []
@@ -69,6 +67,7 @@ def PatientInfo(cursor):
     print(t)
     ax.set_xticklabels(t)
     plt.legend()
+    plt.savefig("./Outputs/Patient Age Groups.png")
     plt.show()
 
 def plotPatientLatLong(cursor):
@@ -95,6 +94,7 @@ def plotPatientLatLong(cursor):
     ax.set_title("Location of Cases")
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
+    plt.savefig("./Outputs/PatientLatLong.png")
     plt.show()
 
 
@@ -107,8 +107,8 @@ CaseCursor = CaseConn.cursor()
 PatientCursor = PatientConn.cursor()
 
 # functions
-# CasesDataPerProvince(CaseCursor)
-# PatientInfo(PatientCursor)
+CasesDataPerProvince(CaseCursor)
+PatientInfo(PatientCursor)
 plotPatientLatLong(CaseCursor)
 
 CaseConn.close()
