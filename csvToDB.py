@@ -2,20 +2,18 @@
 import pandas as pd
 import sqlite3
 
-
-def csvToDB(csvFile):
+def csvToDB(csvFile, cursor):
     dataFile = pd.read_csv(csvFile)
-    # dataFile.info()
 
-    tableName = "healthcare"
+    tableName = "SeoulFloating"
     columnTypes = ", ".join([f"{col.replace(' ', '_')} TEXT" for col in dataFile.columns])
     createTable = f"CREATE TABLE IF NOT EXISTS {tableName} ({columnTypes});"
 
-    cursor = conn.execute(createTable)
-    cursor.fetchall()
+    cursor.execute(createTable)
+    # cursor.fetchall()
 
-    cursor.execute('pragma table_info(healthcare);')
-    print(cursor.fetchall())
+    cursor.execute(f'pragma table_info({tableName});')
+    # print(cursor.fetchall())
 
     for index, row in dataFile.iterrows():
         values = ", ".join([f'"{row_item}"' for row_item in row])
@@ -23,14 +21,14 @@ def csvToDB(csvFile):
         cursor.execute(insertSQL)
 
     print(dataFile.shape)
-    cursor.execute("SELECT COUNT(*) FROM healthcare")
+    cursor.execute(f"SELECT COUNT(*) FROM {tableName}")
     print(cursor.fetchall())
 
     conn.commit()
     conn.close()
 
 
-file = 'healthcare_dataset.csv'
-conn = sqlite3.connect('healthcare.db')
+file = './2020 Covid Korea/SeoulFloating.csv'
+conn = sqlite3.connect('KoreaCovidData/SeoulFloating.db')
 cursor = conn.cursor()
-csvToDB(file)
+csvToDB(file, cursor)
