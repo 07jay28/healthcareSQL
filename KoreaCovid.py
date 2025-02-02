@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import geopandas as gpd
 import sqlite3
 
 def CasesDataPerProvince(cursor):
@@ -70,6 +71,12 @@ def PatientInfo(cursor):
     plt.legend()
     plt.show()
 
+def plotPatientLatLong(cursor):
+    koreaMap = gpd.read_file("./KoreaMap/kr.shp")
+    fig,ax = plt.subplots()
+    koreaMap.plot(ax=ax)
+    plt.show()
+
 
 # database connections
 CaseConn = sqlite3.connect('./KoreaCovidData/Case.db')
@@ -81,7 +88,7 @@ PatientCursor = PatientConn.cursor()
 
 # functions
 # CasesDataPerProvince(CaseCursor)
-PatientInfo(PatientCursor)
-
+# PatientInfo(PatientCursor)
+plotPatientLatLong(PatientCursor)
 
 CaseConn.close()
