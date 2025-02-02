@@ -74,7 +74,27 @@ def PatientInfo(cursor):
 def plotPatientLatLong(cursor):
     koreaMap = gpd.read_file("./KoreaMap/kr.shp")
     fig,ax = plt.subplots()
-    koreaMap.plot(ax=ax)
+
+    query = """SELECT latitude, longitude
+               FROM Cases
+               WHERE latitude!='-' AND longitude!='-'"""
+
+    cursor.execute(query)
+    data = cursor.fetchall()
+    lat,long = [], []
+    for row in data:
+        lat.append(row[0])
+        long.append(row[1])
+
+    df = pd.DataFrame({'latitude':lat, 'longitude':long})
+    gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.longitude, df.latitude))
+    ax = gdf.plot(alpha=1,color='green',zorder=1,marker='o',markersize=3)
+    ax.set_facecolor('lightblue')
+    koreaMap.plot(cmap='YlOrBr', ax=ax,zorder=0)
+
+    ax.set_title("Location of Cases")
+    ax.set_xlabel("Longitude")
+    ax.set_ylabel("Latitude")
     plt.show()
 
 
@@ -89,6 +109,6 @@ PatientCursor = PatientConn.cursor()
 # functions
 # CasesDataPerProvince(CaseCursor)
 # PatientInfo(PatientCursor)
-plotPatientLatLong(PatientCursor)
+plotPatientLatLong(CaseCursor)
 
 CaseConn.close()
