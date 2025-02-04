@@ -12,7 +12,8 @@ As pointed out in the kaggle site where this data is pulled from, this data is e
 ## COVID-19 Korea 2020 Data
 Original dataset can be found here: https://www.kaggle.com/datasets/kimjihoo/coronavirusdataset
 
-Project using actual real world data to visualize data and analyze how Covid affected Korea in 2020. It doesn't seem to contain any updated info past June 2020, but the given data will be used. 
+Project using actual real world data to visualize data and analyze how Covid affected Korea in 2020. It doesn't seem to contain any updated info past June 2020, but the given data will be used.
+A database is missing from the original set due to privacy issues (patientRoute as found on the site).
 
 #### Databases
 * Case.db (Table Name = Cases)
