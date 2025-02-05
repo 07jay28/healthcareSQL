@@ -1,5 +1,4 @@
 # Thanks Jalen. Uncle Mike appreciates learning Git with you.
-# Removed comments
 
 # Comment in development branch for PR rebase practice
 
