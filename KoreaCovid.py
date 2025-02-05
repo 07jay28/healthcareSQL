@@ -22,7 +22,7 @@ def CasesDataPerProvince(cursor):
     plt.xlabel("Province")
     plt.ylabel("Cases")
     plt.savefig("./Outputs/Confirmed Cases by Province.png")
-    plt.show()
+    
 
 def PatientInfo(cursor):
     queryMale = """SELECT age, count(age) as Number_of_Patients_Age_Group
@@ -64,11 +64,11 @@ def PatientInfo(cursor):
     ax.set_ylabel("Number of Patients")
     ax.set_xticks(ind+width/2)
     t = tuple(a for a in ageGroup)
-    print(t)
+    
     ax.set_xticklabels(t)
     plt.legend()
     plt.savefig("./Outputs/Patient Age Groups.png")
-    plt.show()
+    
 
 def plotPatientLatLong(cursor):
     koreaMap = gpd.read_file("./KoreaMap/kr.shp")
@@ -95,7 +95,7 @@ def plotPatientLatLong(cursor):
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
     plt.savefig("./Outputs/PatientLatLong.png")
-    plt.show()
+    
 
 
 # database connections
