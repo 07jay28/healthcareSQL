@@ -1,3 +1,5 @@
+# Thanks Jalen. Uncle Mike appreciates learning Git with you.
+
 # python file for the Korean Covid data
 import numpy as np
 import pandas as pd
