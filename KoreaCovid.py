@@ -1,5 +1,7 @@
 # Thanks Jalen. Uncle Mike appreciates learning Git with you.
 # Adding a chance to test git reset.
+# Adding a third commit test - to create a merge conflict by git reset by 1 commit afterwards.
+# Adding a fourth commit test - to resolve merge conflict without GitLense Pro hand-holding.
 
 # python file for the Korean Covid data
 import numpy as np
