@@ -1,7 +1,5 @@
 # Thanks Jalen. Uncle Mike appreciates learning Git with you.
-# Adding a chance to test git reset.
-# Adding a third commit test - to create a merge conflict by git reset by 1 commit afterwards.
-# Adding a fourth commit test - to resolve merge conflict without GitLense Pro hand-holding.
+# Removed comments
 
 # python file for the Korean Covid data
 import numpy as np
@@ -10,6 +8,7 @@ import matplotlib.pyplot as plt
 import geopandas as gpd
 import sqlite3
 
+# this function analyzes the data in regards to cases for the top 5 provinces
 def CasesDataPerProvince(cursor):
     query = """ SELECT province, SUM(confirmed) as Total_Confirmed
             FROM Cases
@@ -29,6 +28,8 @@ def CasesDataPerProvince(cursor):
     plt.savefig("./Outputs/Confirmed Cases by Province.png")
     plt.show()
 
+# looks at patient info in regards to female and male demographics
+# charts the age ranges with side by side columns for male and female
 def PatientInfo(cursor):
     queryMale = """SELECT age, count(age) as Number_of_Patients_Age_Group
                     FROM PatientInfo
@@ -75,6 +76,7 @@ def PatientInfo(cursor):
     plt.savefig("./Outputs/Patient Age Groups.png")
     plt.show()
 
+# plots patient location cases on a map of korea
 def plotPatientLatLong(cursor):
     koreaMap = gpd.read_file("./KoreaMap/kr.shp")
     fig,ax = plt.subplots()
