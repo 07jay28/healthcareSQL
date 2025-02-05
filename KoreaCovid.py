@@ -104,14 +104,34 @@ def plotPatientLatLong(cursor):
     plt.savefig("./Outputs/PatientLatLong.png")
     plt.show()
 
+# function to go through search trend and look at data changes for each symptom and plot on a pie char
+def searchTrend(cursor):
+    query = """ SELECT *
+                FROM SearchTrend"""
+
+    cursor.execute(query)
+    data = cursor.fetchall()
+    for row in data:
+        date = row[0]
+        cold = row[1]
+        flu = row[2]
+        pneum = row[3]
+        covid = row[4]
+
+    # plot a pie chart interactive for each date
+    # can also have a functionality for looking at a specific month only
+    return 0
+
 
 # database connections
 CaseConn = sqlite3.connect('./KoreaCovidData/Case.db')
 PatientConn = sqlite3.connect('./KoreaCovidData/PatientInfo.db')
+SearhConn = sqlite3.connect('./KoreaCovidData/SearhTrend.db')
 
 # database cursors
 CaseCursor = CaseConn.cursor()
 PatientCursor = PatientConn.cursor()
+SearhCursor = SearhConn.cursor()
 
 # functions
 CasesDataPerProvince(CaseCursor)
