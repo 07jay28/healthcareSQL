@@ -1,3 +1,6 @@
+# Thanks Jalen. Uncle Mike appreciates learning Git with you.
+# Removed comments
+
 # python file for the Korean Covid data
 import numpy as np
 import pandas as pd
@@ -5,6 +8,7 @@ import matplotlib.pyplot as plt
 import geopandas as gpd
 import sqlite3
 
+# this function analyzes the data in regards to cases for the top 5 provinces
 def CasesDataPerProvince(cursor):
     q = """ SELECT province, SUM(confirmed) as Total_Confirmed
             FROM Cases
@@ -22,7 +26,7 @@ def CasesDataPerProvince(cursor):
     plt.xlabel("Provinces")
     plt.ylabel("Cases")
     plt.savefig("./Outputs/Confirmed Cases by Province.png")
-    
+    plt.show()
 
 def PatientInfo(cursor):
     queryMale = """SELECT age, count(age) as Number_of_Patients_Age_Group
@@ -68,7 +72,7 @@ def PatientInfo(cursor):
     ax.set_xticklabels(t)
     plt.legend()
     plt.savefig("./Outputs/Patient Age Groups.png")
-    
+    plt.show()
 
 def plotPatientLatLong(cursor):
     koreaMap = gpd.read_file("./KoreaMap/kr.shp")
@@ -97,18 +101,40 @@ def plotPatientLatLong(cursor):
     plt.savefig("./Outputs/PatientLatLong.png")
     
 
+# function to go through search trend and look at data changes for each symptom and plot on a pie char
+def searchTrend(cursor):
+    query = """ SELECT *
+                FROM SearchTrend"""
+
+    cursor.execute(query)
+    data = cursor.fetchall()
+    for row in data:
+        date = row[0]
+        cold = row[1]
+        flu = row[2]
+        pneum = row[3]
+        covid = row[4]
+
+    # plot a pie chart interactive for each date
+    # can also have a functionality for looking at a specific month only
+    return 0
+
 
 # database connections
 CasesConn = sqlite3.connect('./KoreaCovidData/Case.db')
 PatientInfoConn = sqlite3.connect('./KoreaCovidData/PatientInfo.db')
+SearhConn = sqlite3.connect('./KoreaCovidData/SearhTrend.db')
 
 # database cursors
-CaseCursor = CaseConn.cursor()
-PatientCursor = PatientConn.cursor()
+CaseCursor = CasesConn.cursor()
+PatientCursor = PatientInfoConn.cursor()
+SearhCursor = SearhConn.cursor()
 
 # functions
 CasesDataPerProvince(CaseCursor)
 PatientInfo(PatientCursor)
 plotPatientLatLong(CaseCursor)
 
-CaseConn.close()
+CasesConn.close()
+PatientInfoConn.close()
+SearhConn.close()
