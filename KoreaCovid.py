@@ -1,6 +1,8 @@
 # Thanks Jalen. Uncle Mike appreciates learning Git with you.
 # Removed comments
 
+# comment in mlivshutz_personal branch for rebase PR practice
+
 # python file for the Korean Covid data
 import numpy as np
 import pandas as pd
