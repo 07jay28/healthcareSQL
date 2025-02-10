@@ -1,7 +1,7 @@
 # Thanks Jalen. Uncle Mike appreciates learning Git with you.
 # Removed comments
 
-# Comment in dev branch for PR rebase practice
+# Comment in development branch for PR rebase practice
 
 # python file for the Korean Covid data
 import numpy as np
