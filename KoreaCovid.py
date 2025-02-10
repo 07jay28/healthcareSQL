@@ -10,26 +10,24 @@ import sqlite3
 
 # this function analyzes the data in regards to cases for the top 5 provinces
 def CasesDataPerProvince(cursor):
-    query = """ SELECT province, SUM(confirmed) as Total_Confirmed
+    q = """ SELECT province, SUM(confirmed) as Total_Confirmed
             FROM Cases
             GROUP BY province
             ORDER BY Total_Confirmed DESC
             LIMIT 5"""
-    cursor.execute(query)
+    cursor.execute(q)
     data = cursor.fetchall()
 
-    for row in data:
-        plt.bar(row[0], row[1])
-        plt.text(row[0], row[1], row[1])
+    for info in data:
+        plt.bar(info[0], info[1])
+        plt.text(info[0], info[1], info[1])
 
     plt.title("Top 5 Provinces with Confirmed Cases")
-    plt.xlabel("Province")
+    plt.xlabel("Provinces")
     plt.ylabel("Cases")
     plt.savefig("./Outputs/Confirmed Cases by Province.png")
     plt.show()
 
-# looks at patient info in regards to female and male demographics
-# charts the age ranges with side by side columns for male and female
 def PatientInfo(cursor):
     queryMale = """SELECT age, count(age) as Number_of_Patients_Age_Group
                     FROM PatientInfo
@@ -70,13 +68,12 @@ def PatientInfo(cursor):
     ax.set_ylabel("Number of Patients")
     ax.set_xticks(ind+width/2)
     t = tuple(a for a in ageGroup)
-    print(t)
+    
     ax.set_xticklabels(t)
     plt.legend()
     plt.savefig("./Outputs/Patient Age Groups.png")
     plt.show()
 
-# plots patient location cases on a map of korea
 def plotPatientLatLong(cursor):
     koreaMap = gpd.read_file("./KoreaMap/kr.shp")
     fig,ax = plt.subplots()
@@ -98,11 +95,11 @@ def plotPatientLatLong(cursor):
     ax.set_facecolor('lightblue')
     koreaMap.plot(cmap='YlOrBr', ax=ax,zorder=0)
 
-    ax.set_title("Location of Cases")
+    ax.set_title("Cases Location")
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
     plt.savefig("./Outputs/PatientLatLong.png")
-    plt.show()
+    
 
 # function to go through search trend and look at data changes for each symptom and plot on a pie char
 def searchTrend(cursor):
@@ -124,13 +121,13 @@ def searchTrend(cursor):
 
 
 # database connections
-CaseConn = sqlite3.connect('./KoreaCovidData/Case.db')
-PatientConn = sqlite3.connect('./KoreaCovidData/PatientInfo.db')
+CasesConn = sqlite3.connect('./KoreaCovidData/Case.db')
+PatientInfoConn = sqlite3.connect('./KoreaCovidData/PatientInfo.db')
 SearhConn = sqlite3.connect('./KoreaCovidData/SearhTrend.db')
 
 # database cursors
-CaseCursor = CaseConn.cursor()
-PatientCursor = PatientConn.cursor()
+CaseCursor = CasesConn.cursor()
+PatientCursor = PatientInfoConn.cursor()
 SearhCursor = SearhConn.cursor()
 
 # functions
@@ -138,4 +135,6 @@ CasesDataPerProvince(CaseCursor)
 PatientInfo(PatientCursor)
 plotPatientLatLong(CaseCursor)
 
-CaseConn.close()
+CasesConn.close()
+PatientInfoConn.close()
+SearhConn.close()

@@ -3,6 +3,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sqlite3
 
+def create_numbers():
+    for i in range(10):
+        print(i)
+
+    print("printing complete")
+
+def toBeImplemented():
+    # this function will be used for something
+    # perhaps for commits
+    return 0
+
 def medicalConditions(cursor):
     conditions = """SELECT Medical_Condition, COUNT(*) AS Total_Patients
                   FROM healthcare 
