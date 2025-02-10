@@ -1,7 +1,7 @@
 # Thanks Jalen. Uncle Mike appreciates learning Git with you.
 # Removed comments
 
-# Comment in development branch for PR rebase practice
+# comment 2 in mlivshutz_personal branch for rebase PR practice
 
 # python file for the Korean Covid data
 import numpy as np
@@ -30,6 +30,8 @@ def CasesDataPerProvince(cursor):
     plt.savefig("./Outputs/Confirmed Cases by Province.png")
     plt.show()
 
+# looks at patient info in regards to female and male demographics
+# charts the age ranges with side by side columns for male and female
 def PatientInfo(cursor):
     queryMale = """SELECT age, count(age) as Number_of_Patients_Age_Group
                     FROM PatientInfo
@@ -76,6 +78,7 @@ def PatientInfo(cursor):
     plt.savefig("./Outputs/Patient Age Groups.png")
     plt.show()
 
+# plots patient location cases on a map of korea
 def plotPatientLatLong(cursor):
     koreaMap = gpd.read_file("./KoreaMap/kr.shp")
     fig,ax = plt.subplots()
