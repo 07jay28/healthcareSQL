@@ -6,20 +6,20 @@ import geopandas as gpd
 import sqlite3
 
 def CasesDataPerProvince(cursor):
-    query = """ SELECT province, SUM(confirmed) as Total_Confirmed
+    q = """ SELECT province, SUM(confirmed) as Total_Confirmed
             FROM Cases
             GROUP BY province
             ORDER BY Total_Confirmed DESC
             LIMIT 5"""
-    cursor.execute(query)
+    cursor.execute(q)
     data = cursor.fetchall()
 
-    for row in data:
-        plt.bar(row[0], row[1])
-        plt.text(row[0], row[1], row[1])
+    for info in data:
+        plt.bar(info[0], info[1])
+        plt.text(info[0], info[1], info[1])
 
     plt.title("Top 5 Provinces with Confirmed Cases")
-    plt.xlabel("Province")
+    plt.xlabel("Provinces")
     plt.ylabel("Cases")
     plt.savefig("./Outputs/Confirmed Cases by Province.png")
     
@@ -91,7 +91,7 @@ def plotPatientLatLong(cursor):
     ax.set_facecolor('lightblue')
     koreaMap.plot(cmap='YlOrBr', ax=ax,zorder=0)
 
-    ax.set_title("Location of Cases")
+    ax.set_title("Cases Location")
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
     plt.savefig("./Outputs/PatientLatLong.png")
@@ -99,8 +99,8 @@ def plotPatientLatLong(cursor):
 
 
 # database connections
-CaseConn = sqlite3.connect('./KoreaCovidData/Case.db')
-PatientConn = sqlite3.connect('./KoreaCovidData/PatientInfo.db')
+CasesConn = sqlite3.connect('./KoreaCovidData/Case.db')
+PatientInfoConn = sqlite3.connect('./KoreaCovidData/PatientInfo.db')
 
 # database cursors
 CaseCursor = CaseConn.cursor()
